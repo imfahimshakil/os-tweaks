@@ -1,0 +1,12 @@
+[Unit]
+Description=HDD tuning (no sleep, scheduler, read-ahead)
+After=multi-user.target
+Wants=systemd-udev-settle.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/hdd-tune.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

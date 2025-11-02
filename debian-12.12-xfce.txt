@@ -1,0 +1,126 @@
+Fix Update Repo
+---------------
+sed -i '/^deb cdrom:/s/^/# /' /etc/apt/sources.list
+sed -i '/^deb\(-src\)\? .*bookworm/ s/\(deb\(-src\)\? .*bookworm.*main\)\(.*\)$/\1 contrib non-free non-free-firmware/' /etc/apt/sources.list
+apt update
+
+Bluetooth
+---------
+apt install bluetooth blueman -y
+reboot
+
+Screenfetch
+-----------
+apt install screenfetch -y
+
+Codecs & Fonts
+--------------
+apt install ttf-mscorefonts-installer rar unrar libavcodec-extra gstreamer1.0-vaapi -y
+mkdir -p /usr/local/share/fonts/ms-win10
+cp ttf-ms-win10/*.{ttf,ttc} /usr/local/share/fonts/ms-win10/
+fc-cache -fv
+
+Nvidia Driver
+-------------
+apt install nvidia-driver -y
+
+OpenVpn
+-------
+apt install network-manager-openvpn-gnome -y
+
+to disable ipv6 if not present in .ovpn, configure vpn
+{
+	ipv6 settings -> addresses only
+	static addresses -> Address: 2000:: Prefix: 3 Gateway: 0100::1
+	dns servers -> ::
+}
+
+Avro
+----
+apt install ibus-avro -y
+
+add input method
+{
+	IBus Preferences -> Input Method -> Add -> avro -> Bangla -> Avro Phonetic -> Add
+}
+
+MPV
+---
+apt install mpv -y
+rm -rf /etc/mpv
+cp -r mpv /etc/
+
+MergerFS
+--------
+apt install mergerfs -y
+mkdir -p /mnt/library /mnt/data1 /mnt/data2 /mnt/data3
+
+mount multiple hdd's + combine data into a single folder (read-only) 
+{
+	on terminal, execute the following
+	sda1=$(blkid -s UUID -o value /dev/sda1)
+	sdb1=$(blkid -s UUID -o value /dev/sdb1)
+	sdc1=$(blkid -s UUID -o value /dev/sdc1)
+	set=defaults,noatime,nodiratime,commit=5,data=ordered
+
+	echo -e "\nUUID=$sda1\t/mnt/data1\text4\t$set\t0\t2\nUUID=$sdb1\t/mnt/data2\text4\t$set\t0\t2\nUUID=$sdc1\t/mnt/data3\text4\t$set\t0\t2" | tee -a /etc/fstab
+	echo -e "\n/mnt/data1/media:/mnt/data2/media:/mnt/data3/media /mnt/library fuse.mergerfs ro,allow_other,use_ino 0 0" | tee -a /etc/fstab
+
+	chown -R root:enten /mnt/library
+	systemctl daemon-reload
+}
+
+EasyTAG
+-------
+apt install easytag -y
+
+GParted
+-------
+apt install gparted -y
+
+SimpleScreenRecorder
+--------------------
+apt install simplescreenrecorder -y
+
+VLC
+---
+apt install vlc -y
+
+IPTVnator
+---------
+read -p "Download (1) stable or (2) beta? " choice; url=$(wget -qO- "https://api.github.com/repos/4gray/iptvnator/releases$( [ "$choice" != "2" ] && echo "/latest")" | grep -m1 "browser_download_url.*deb" | cut -d'"' -f4); wget --content-disposition "$url"
+apt install ./iptvnator*.deb
+rm -rf iptvnator*.deb
+
+MKVToolNix
+---------
+apt install mkvtoolnix-gui -y
+
+MediaInfo
+---------
+apt install mediainfo-gui -y
+
+Mugshot (Whisker Menu)
+----------------------
+apt install mugshot -y
+
+Smartmontools
+-------------
+apt install smartmontools -y
+
+HDD Tuning
+----------
+cp hdd-tune.sh /usr/local/sbin/
+chmod +x /usr/local/sbin/hdd-tune.sh
+cp hdd-tuning.service /etc/systemd/system/hdd-tuning.service
+systemctl daemon-reload
+systemctl enable hdd-tuning.service
+systemctl start hdd-tuning.service
+
+Git
+---
+apt install git -y
+url=$(wget -qO- "https://api.github.com/repos/git-ecosystem/git-credential-manager/releases/latest" | grep -m1 "browser_download_url.*gcm-linux_amd64.*\.deb" | cut -d'"' -f4); wget --content-disposition "$url"
+apt install ./gcm*.deb
+git-credential-manager configure
+export GCM_CREDENTIAL_STORE=cache
