@@ -1,115 +1,98 @@
-Fix Update Repo
----------------
+======================================
+DEBIAN SYSTEM SETUP GUIDE (BOOKWORM)
+======================================
+
+1. FIX AND UPDATE REPOSITORY CONFIGURATION
+-----------------------------------------
+# Uncomment any lines starting with 'deb cdrom:'
 sed -i '/^deb cdrom:/s/^/# /' /etc/apt/sources.list
+
+# Enable contrib, non-free, and non-free-firmware for the bookworm repositories
 sed -i '/^deb\(-src\)\? .*bookworm/ s/\(deb\(-src\)\? .*bookworm.*main\)\(.*\)$/\1 contrib non-free non-free-firmware/' /etc/apt/sources.list
+
+# Update the package lists
 apt update
 
-Bluetooth
----------
+2. BASIC UTILITY AND CONNECTIVITY
+---------------------------------
+# Bluetooth
 apt install bluetooth blueman -y
 reboot
 
-Screenfetch
------------
+# Screenfetch
 apt install screenfetch -y
 
-Codecs & Fonts
---------------
+# OpenVPN (Network Manager Integration)
+apt install network-manager-openvpn-gnome -y
+# To disable IPv6 in VPN settings:
+#   ipv6 settings -> addresses only
+#   static addresses -> Address: 2000:: Prefix: 3 Gateway: 0100::1
+#   dns servers -> ::
+
+3. DRIVERS AND MULTIMEDIA
+-------------------------
+# Nvidia Graphics Driver
+apt install nvidia-driver -y
+
+# Codecs & Fonts
 apt install ttf-mscorefonts-installer rar unrar libavcodec-extra gstreamer1.0-vaapi -y
+
+# Install MS Windows 10 Fonts (Requires local files: ttf-ms-win10/*.{ttf,ttc})
 mkdir -p /usr/local/share/fonts/ms-win10
 cp ttf-ms-win10/*.{ttf,ttc} /usr/local/share/fonts/ms-win10/
 fc-cache -fv
 
-Nvidia Driver
--------------
-apt install nvidia-driver -y
-
-OpenVpn
--------
-apt install network-manager-openvpn-gnome -y
-
-to disable ipv6 if not present in .ovpn, configure vpn
-{
-	ipv6 settings -> addresses only
-	static addresses -> Address: 2000:: Prefix: 3 Gateway: 0100::1
-	dns servers -> ::
-}
-
-Avro
-----
+# Avro Phonetic (Bangla Input)
 apt install ibus-avro -y
+# Add input method in IBus Preferences: Input Method -> Add -> avro -> Bangla -> Avro Phonetic -> Add
 
-add input method
-{
-	IBus Preferences -> Input Method -> Add -> avro -> Bangla -> Avro Phonetic -> Add
-}
-
-MPV
----
+4. MEDIA AND DISK MANAGEMENT TOOLS
+----------------------------------
+# MPV Player
 apt install mpv -y
 rm -rf /etc/mpv
 cp -r mpv /etc/
 
-MergerFS
---------
-apt install mergerfs -y
-mkdir -p /mnt/library /mnt/data1 /mnt/data2 /mnt/data3
-
-mount multiple hdd's + combine data into a single folder (read-only) 
-{
-	on terminal, execute the following
-	sda1=$(blkid -s UUID -o value /dev/sda1)
-	sdb1=$(blkid -s UUID -o value /dev/sdb1)
-	sdc1=$(blkid -s UUID -o value /dev/sdc1)
-	set=defaults,noatime,nodiratime,commit=5,data=ordered
-
-	echo -e "\nUUID=$sda1\t/mnt/data1\text4\t$set\t0\t2\nUUID=$sdb1\t/mnt/data2\text4\t$set\t0\t2\nUUID=$sdc1\t/mnt/data3\text4\t$set\t0\t2" | tee -a /etc/fstab
-	echo -e "\n/mnt/data1/media:/mnt/data2/media:/mnt/data3/media /mnt/library fuse.mergerfs ro,allow_other,use_ino 0 0" | tee -a /etc/fstab
-
-	chown -R root:enten /mnt/library
-	systemctl daemon-reload
-}
-
-EasyTAG
--------
-apt install easytag -y
-
-GParted
--------
-apt install gparted -y
-
-SimpleScreenRecorder
---------------------
-apt install simplescreenrecorder -y
-
-VLC
----
+# VLC Player
 apt install vlc -y
 
-IPTVnator
----------
-read -p "Download (1) stable or (2) beta? " choice; url=$(wget -qO- "https://api.github.com/repos/4gray/iptvnator/releases$( [ "$choice" != "2" ] && echo "/latest")" | grep -m1 "browser_download_url.*deb" | cut -d'"' -f4); wget --content-disposition "$url"
+# IPTVnator (Installation from GitHub)
+read -p "Download (1) stable or (2) beta? " choice
+url=$(wget -qO- "https://api.github.com/repos/4gray/iptvnator/releases$( [ "$choice" != "2" ] && echo "/latest")" | grep -m1 "browser_download_url.*deb" | cut -d'"' -f4)
+wget --content-disposition "$url"
 apt install ./iptvnator*.deb
 rm -rf iptvnator*.deb
 
-MKVToolNix
----------
-apt install mkvtoolnix-gui -y
+# Media Tools
+apt install mkvtoolnix-gui -y  # MKVToolNix
+apt install mediainfo-gui -y   # MediaInfo
+apt install easytag -y         # EasyTAG
 
-MediaInfo
----------
-apt install mediainfo-gui -y
+# Screen Recording and Partitioning
+apt install simplescreenrecorder -y
+apt install gparted -y
 
-Mugshot (Whisker Menu)
-----------------------
-apt install mugshot -y
-
-Smartmontools
--------------
+# Smartmontools
 apt install smartmontools -y
 
-HDD Tuning
-----------
+5. ADVANCED FILE MANAGEMENT
+---------------------------
+# MergerFS (Combining Drives)
+apt install mergerfs -y
+mkdir -p /mnt/library /mnt/data1 /mnt/data2 /mnt/data3
+
+# Execute these commands one-by-one to configure MergerFS:
+sda1=$(blkid -s UUID -o value /dev/sda1)
+sdb1=$(blkid -s UUID -o value /dev/sdb1)
+sdc1=$(blkid -s UUID -o value /dev/sdc1)
+set=defaults,noatime,nodiratime,commit=5,data=ordered
+echo -e "\nUUID=$sda1\t/mnt/data1\text4\t$set\t0\t2\nUUID=$sdb1\t/mnt/data2\text4\t$set\t0\t2\nUUID=$sdc1\t/mnt/data3\text4\t$set\t0\t2" | tee -a /etc/fstab
+echo -e "\n/mnt/data1/media:/mnt/data2/media:/mnt/data3/media /mnt/library fuse.mergerfs ro,allow_other,use_ino 0 0" | tee -a /etc/fstab
+unset u; PS3="Select a user: "; select u in $(ls /home); do [[ -n $u ]] && chown -R root:$(id -gn $u) /mnt/library && break; done
+systemctl daemon-reload
+mount -a
+
+# HDD Tuning (Requires local files: hdd-tune.sh, hdd-tuning.service)
 cp hdd-tune.sh /usr/local/sbin/
 chmod +x /usr/local/sbin/hdd-tune.sh
 cp hdd-tuning.service /etc/systemd/system/hdd-tuning.service
@@ -117,9 +100,29 @@ systemctl daemon-reload
 systemctl enable hdd-tuning.service
 systemctl start hdd-tuning.service
 
-Git
----
+6. DEVELOPMENT AND USER MANAGEMENT
+----------------------------------
+# Git & Git Credential Manager
 apt install git -y
-url=$(wget -qO- "https://api.github.com/repos/git-ecosystem/git-credential-manager/releases/latest" | grep -m1 "browser_download_url.*gcm-linux_amd64.*\.deb" | cut -d'"' -f4); wget --content-disposition "$url"
+url=$(wget -qO- "https://api.github.com/repos/git-ecosystem/git-credential-manager/releases/latest" | grep -m1 "browser_download_url.*gcm-linux_amd64.*\.deb" | cut -d'"' -f4)
+wget --content-disposition "$url"
 apt install ./gcm*.deb
 git-credential-manager configure
+
+# Mugshot (Whisker Menu)
+apt install mugshot -y
+
+# Swizzin (Server/Seedbox Stack)
+bash <(wget -qO - s5n.sh) && . ~/.bashrc
+# Note: If you select an existing user, you might need to reset their password:
+# passwd enten
+
+# Change Filebrowser's Root Directory to /mnt/library
+unset u; PS3="Select a user: "; select u in $(ls /home); do [[ -n "$u" ]] && break; done
+/home/$u/bin/filebrowser config set -r /mnt/library -d /home/$u/.config/Filebrowser/filebrowser.db
+
+# Change rTorrent port into static
+unset u; PS3="Select a user: "; select u in $(ls /home); do [[ -n "$u" ]] && break; done; read -p "Select a port (e.g., 50000): " p; sed -i -e '/^network.port_random.set = yes/c\network.port_random.set = no' -e "s/^network.port_range.set = [0-9]\{4,6\}-[0-9]\{4,6\}/network.port_range.set = $p-$p/" "/home/$u/.rtorrent.rc"
+
+# Change ruTorrent Top Directory to '/'
+sed -i "s|^\(\$topDirectory = \)'[^']*';|\1'/';|" "/srv/rutorrent/conf/users/$u/config.php"
