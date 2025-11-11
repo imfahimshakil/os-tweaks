@@ -19,7 +19,7 @@ apt update
 2. BASIC UTILITY AND CONNECTIVITY
 ---------------------------------
 # Bluetooth
-apt install bluetooth blueman -y
+apt install bluetooth blueman firmware-realtek -y
 reboot
 
 # LightDM GTK Greeter
@@ -57,7 +57,7 @@ apt install ttf-mscorefonts-installer rar unrar libavcodec-extra gstreamer1.0-va
 
 # Install MS Windows 10 Fonts (Requires local files: ttf-ms-win10/*.{ttf,ttc})
 mkdir -p /usr/local/share/fonts/ms-win10
-cp ttf-ms-win10/*.{ttf,ttc} /usr/local/share/fonts/ms-win10/
+cp ttf-microsoft/*.{ttf,ttc} /usr/local/share/fonts/ms-win10/
 fc-cache -fv
 
 # Avro Phonetic (Bangla Input)
@@ -84,11 +84,7 @@ apt install ./iptvnator*.deb -y
 rm -rf iptvnator*.deb
 
 # Media Tools
-apt install mkvtoolnix-gui -y  # MKVToolNix
-apt install mediainfo-gui -y   # MediaInfo
-apt install easytag -y         # EasyTAG
-apt install ffmpeg -y          # FFmpeg
-apt install vlc -y             # VLC Player
+apt install mkvtoolnix-gui mediainfo-gui easytag ffmpeg vlc -y
 
 # Screen Recording
 apt install simplescreenrecorder -y
@@ -143,6 +139,7 @@ apt install git -y
 url=$(wget -qO- "https://api.github.com/repos/git-ecosystem/git-credential-manager/releases/latest" | grep -m1 "browser_download_url.*gcm-linux_amd64.*\.deb" | cut -d'"' -f4)
 wget --content-disposition "$url"
 apt install ./gcm*.deb
+rm -rf gcm*.deb
 git-credential-manager configure
 
 # Sublime Text
