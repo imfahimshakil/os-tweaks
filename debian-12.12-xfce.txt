@@ -67,7 +67,7 @@ rm -rf ookla-speedtest-1.2.0-linux-x86_64.tgz
 apt install nvidia-driver -y
 
 # Codecs & Fonts
-apt install ttf-mscorefonts-installer rar unrar libavcodec-extra gstreamer1.0-vaapi -y
+apt install ttf-mscorefonts-installer unrar libavcodec-extra libvdpau1 vdpauinfo -y
 
 # Install MS Windows 10 Fonts (Requires local files: ttf-ms-win10/*.{ttf,ttc})
 mkdir -p /usr/local/share/fonts/ms-win10

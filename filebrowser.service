@@ -3,12 +3,12 @@ Description=filebrowser
 After=network.target
 
 [Service]
-User=user
-Group=user
+User=who
+Group=who
 UMask=002
 
 Type=simple
-ExecStart=/usr/local/bin/filebrowser -c /home/user/.config/filebrowser/settings.json
+ExecStart=/usr/local/bin/filebrowser -c /home/who/.config/filebrowser/settings.json
 TimeoutStopSec=20
 KillMode=process
 Restart=always
