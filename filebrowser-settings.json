@@ -1,7 +1,0 @@
-{
-  "port": 8081,
-  "baseURL": "/filebrowser",
-  "log": "stdout",
-  "database": "",
-  "root": "/mnt/library"
-}
