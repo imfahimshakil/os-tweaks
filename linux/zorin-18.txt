@@ -47,6 +47,9 @@ flatpak install flathub com.bitwarden.desktop -y
 # TCP BBR
 echo -e "net.core.default_qdisc=fq\nnet.ipv4.tcp_congestion_control=bbr" | sudo tee -a /etc/sysctl.conf && sudo /usr/sbin/sysctl -p
 
+# UNRAR
+sudo apt install unrar -y
+
 # BleachBit
 sudo apt install bleachbit -y
 
