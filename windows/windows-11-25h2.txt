@@ -1,7 +1,7 @@
 # Chocolatey and Scoop
 # Run Powershell as Admin
-sep bypass -s process -f;iex(irm https://community.chocolatey.org/install.ps1)
-sep RemoteSigned -s CurrentUser;iex(irm https://get.scoop.sh)
+Set-ExecutionPolicy Bypass -Scope Process -Force;iex(irm https://community.chocolatey.org/install.ps1)
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser;iex(irm https://get.scoop.sh)
 # Close Powershell
 
 # PowerShell
@@ -47,7 +47,7 @@ winget install -e --id Tonec.InternetDownloadManager
 printf "U2FsdGVkX1/iIw2IcNvJFSG/Gt/+1Bu1AeymQyQbh+7AOO/z1ljex7CX1dPNp9wu+PSbx+Uz3Vaj+p8FBipoiA==" | openssl enc -aes-256-cbc -a -A -d -pbkdf2
 
 # Revo Uninstaller Pro
-# Download, extract, install, follow readme.txt
+# Download -> extract -> install -> follow readme.txt
 # https://mega.nz/file/IQJF0T5K#yAZbaFVLsfGUUt1xEPlipvjHssImSa2wubSTzyzsaiw
 
 # ImgBurn
@@ -57,7 +57,7 @@ winget install -e --id LIGHTNINGUK.ImgBurn
 winget install -e --id Cloudflare.Warp
 
 # Bijoy Bayanno
-# Download, extract, install (old requires dotnet 3.5), activate
+# Download -> extract -> install (old requires dotnet 3.5) -> activate
 # https://mega.nz/file/AUQ1TSBJ#iK_JXDUbgyGwHEDfhxqQyeYxmZ2cPlfgVdfqgEQSynE
 
 # Python 3.12
@@ -72,14 +72,14 @@ rm .\ffmpeg -r -f; rm .\ffmpeg-release-essentials.zip -f
 saps pwsh -v RunAs -a '-C "curl -LO((irm https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest).assets|? name -like''*.exe''|select -f1 -ex browser_download_url);mv yt-dlp.exe C:\Programs\MPC -f"'
 
 # Canon CanoScan LiDE 120
-# Download, install
+# Download -> install
 # https://www.canon-europe.com/support/consumer/products/scanners/canoscan/lide-series/canoscan-lide-120.html?type=drivers&language=EN&os=Windows%2011
 
 # OpenVPN
 winget install -e --id OpenVPNTechnologies.OpenVPN
 
 # AOMEI Partition Assistant
-# Download, extract, follow readme.txt, install
+# Download -> extract -> follow readme.txt -> install
 # https://mega.nz/file/8FJRVJhJ#TOAWxVuQmS9SuNn5jGi5r0uGAQearuyzjCYUov_pvok
 
 # VisualCppRedist AIO
@@ -90,8 +90,22 @@ scoop install vcredist-aio
 choco install mpvio.install
 
 # SFVIP-Player
-# Download, extract, watch video, install
+# Download -> extract -> watch video -> install
 https://mega.nz/file/lI51hJID#SYOO6-JDyaSfMIWN09zyqgt5kgLd7O6Z3httPong390
 
 # Aria2
 winget install -e --id aria2.aria2
+
+# EaseUS Todo Backup
+choco install todobackup
+
+# Winhance
+scoop bucket add verymucho_knick-knacks https://github.com/verymucho/knick-knacks
+scoop install winhance
+
+# Windhawk
+choco install windhawk
+
+# Office 365 Enterprise
+# Download -> extract -> install-office.bat
+# https://mega.nz/file/cE51CTzT#TV1YnYpzrTsDNFekOap0gWSG8Y6UppdVv8qdhk5_miE
