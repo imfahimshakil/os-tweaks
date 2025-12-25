@@ -1,11 +1,14 @@
-# Chocolatey and Scoop
-# Run Powershell as Admin
+# Chocolatey (Run Powershell as Admin)
 Set-ExecutionPolicy Bypass -Scope Process -Force;iex(irm https://community.chocolatey.org/install.ps1)
+
+# Scoop
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser;iex(irm https://get.scoop.sh)
-# Close Powershell
 
 # PowerShell
 winget install -e --id Microsoft.PowerShell
+
+# Bitwarden
+winget install -e --id Bitwarden.Bitwarden
 
 # Avro
 winget install -e --id OmicronLab.Avro
@@ -38,13 +41,16 @@ winget install -e --id MoritzBunkus.MKVToolNix
 winget install -e --id MediaArea.MediaInfo.GUI
 
 # Notepad++
-winget uninstall Microsoft.Notepad
 winget install -e --id Notepad++.Notepad++
+# Make notepadd++ default program for .txt file format
+# Notepad++ (Run as Adminstrator) -> Settings:
+#   File Association -> Notepad -> .txt -> Click "->"
 
 # Internet Download Manager
+sudo choco install openssl -y
 winget install -e --id Tonec.InternetDownloadManager
 # Activation
-printf "U2FsdGVkX1/iIw2IcNvJFSG/Gt/+1Bu1AeymQyQbh+7AOO/z1ljex7CX1dPNp9wu+PSbx+Uz3Vaj+p8FBipoiA==" | openssl enc -aes-256-cbc -a -A -d -pbkdf2
+"U2FsdGVkX1/iIw2IcNvJFSG/Gt/+1Bu1AeymQyQbh+7AOO/z1ljex7CX1dPNp9wu+PSbx+Uz3Vaj+p8FBipoiA==" | openssl enc -aes-256-cbc -a -A -d -pbkdf2
 
 # Revo Uninstaller Pro
 # Download -> extract -> install -> follow readme.txt
@@ -84,7 +90,7 @@ winget install -e --id OpenVPNTechnologies.OpenVPN
 
 # VisualCppRedist AIO
 scoop bucket add extras
-scoop install vcredist-aio
+sudo scoop install vcredist-aio
 
 # MPV Player
 choco install mpvio.install
@@ -97,14 +103,14 @@ https://mega.nz/file/lI51hJID#SYOO6-JDyaSfMIWN09zyqgt5kgLd7O6Z3httPong390
 winget install -e --id aria2.aria2
 
 # EaseUS Todo Backup
-choco install todobackup
+sudo choco install todobackup -y
 
 # Winhance
 scoop bucket add verymucho_knick-knacks https://github.com/verymucho/knick-knacks
 scoop install winhance
 
 # Windhawk
-choco install windhawk
+sudo choco install windhawk -y
 
 # Office 365 Enterprise
 # Download -> extract -> install-office.bat
