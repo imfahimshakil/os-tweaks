@@ -255,6 +255,7 @@ sudo systemctl start filebrowser
 # https://starship.rs/
 # https://forum.zorin.com/t/bash-customization-on-zorin/41470/4
 # https://www.nerdfonts.com/cheat-sheet
+# https://draculatheme.com/gnome-terminal
 
 # Taskbar Modification
 # https://extensions.gnome.org/extension/6655/openweather/

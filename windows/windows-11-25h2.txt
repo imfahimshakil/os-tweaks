@@ -10,6 +10,9 @@ winget install -e --id Microsoft.PowerShell
 # Bitwarden
 winget install -e --id Bitwarden.Bitwarden
 
+# PeaZip
+winget install -e --id Giorgiotani.Peazip
+
 # Avro
 winget install -e --id OmicronLab.Avro
 
@@ -26,13 +29,16 @@ winget install -e --id Mozilla.Firefox
 winget install -e --id OBSProject.OBSStudio
 
 # Lightshot
+# Turn off snipping tool
+#   Settings -> Accessibility -> Keyboard:
+#   Use the Print screen key to open screen capture -> Off
 winget install -e --id Skillbrains.Lightshot
 
 # PuTTY
 winget install -e --id PuTTY.PuTTY
 
 # BleachBit
-choco install bleachbit.install
+sudo choco install bleachbit.install -y
 
 # MKVToolNix
 winget install -e --id MoritzBunkus.MKVToolNix
@@ -72,10 +78,10 @@ winget install -e --id Python.Python.3.12
 # MPC-HC
 winget install -e --id clsid2.mpc-hc
 # ffmpeg
-curl -LOJ https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip; tar -xf ffmpeg-release-essentials.zip; ren (gci -d|? Name -like'ffmpeg*') ffmpeg; saps pwsh -v RunAs -a '-NoProfile -C "cp ffmpeg\bin\ffmpeg.exe C:\Programs\MPC"'
-rm .\ffmpeg -r -f; rm .\ffmpeg-release-essentials.zip -f
+curl -LOJ https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip; tar -xf ffmpeg-release-essentials.zip; ren (gci -Directory | ? Name -like 'ffmpeg*') ffmpeg; saps pwsh -v RunAs -a '-NoProfile -C "mv ffmpeg\bin\ffmpeg.exe ''C:\Program Files\MPC-HC''"'
+rm .\ffmpeg, .\ffmpeg-release-essentials.zip -Recurse -Force
 # yt-dlp
-saps pwsh -v RunAs -a '-C "curl -LO((irm https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest).assets|? name -like''*.exe''|select -f1 -ex browser_download_url);mv yt-dlp.exe C:\Programs\MPC -f"'
+curl -L -o yt-dlp.exe https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe; saps pwsh -v RunAs -a '-NoProfile -C "mv yt-dlp.exe ''C:\Program Files\MPC-HC'' -Force"'
 
 # Canon CanoScan LiDE 120
 # Download -> install
@@ -93,21 +99,28 @@ scoop bucket add extras
 sudo scoop install vcredist-aio
 
 # MPV Player
-choco install mpvio.install
+sudo choco install mpvio.install -y
 
 # SFVIP-Player
-# Download -> extract -> watch video -> install
-https://mega.nz/file/lI51hJID#SYOO6-JDyaSfMIWN09zyqgt5kgLd7O6Z3httPong390
+# Download -> extract ("C:\")
+# Create a shortcut of "sfvip player.exe"
+# Move the shortcut to the Start Menu folder:
+#   Press Win + R
+#   Type: shell:programs
+#   Paste the shortcut into the folder that opens
+#   (Optional) Rename the shortcut to a clean app name -> SFVIP-Player
+https://mega.nz/file/MAhWGTwL#yPeowJXM3gZQAv5K51qsM23-dbj7j0RX2l7tKE1_uqQ
 
 # Aria2
 winget install -e --id aria2.aria2
 
 # EaseUS Todo Backup
-sudo choco install todobackup -y
+sudo choco install todobackup -y --ignore-checksums
 
 # Winhance
 scoop bucket add verymucho_knick-knacks https://github.com/verymucho/knick-knacks
 scoop install winhance
+# Import config.winhance
 
 # Windhawk
 sudo choco install windhawk -y
@@ -115,3 +128,7 @@ sudo choco install windhawk -y
 # Office 365 Enterprise
 # Download -> extract -> install-office.bat
 # https://mega.nz/file/cE51CTzT#TV1YnYpzrTsDNFekOap0gWSG8Y6UppdVv8qdhk5_miE
+
+# Terminal Modification
+# https://starship.rs/
+# https://draculatheme.com/windows-terminal
