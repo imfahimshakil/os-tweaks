@@ -44,6 +44,9 @@ grep -qxF "export LIBVA_DRIVER_NAME=nvidia" ~/.profile || sed -i '$ a export LIB
 # Bitwarden
 flatpak install flathub com.bitwarden.desktop -y
 
+# Proton VPN
+flatpak install flathub com.protonvpn.www -y
+
 # TCP BBR
 echo -e "net.core.default_qdisc=fq\nnet.ipv4.tcp_congestion_control=bbr" | sudo tee -a /etc/sysctl.conf && sudo /usr/sbin/sysctl -p
 
@@ -75,6 +78,9 @@ flatpak install flathub com.mattjakeman.ExtensionManager -y
 
 # OBS Studio
 flatpak install flathub com.obsproject.Studio -y
+
+# JetBrain Rider
+sudo snap install rider --classic
 
 # Fastfetch
 sudo add-apt-repository ppa:zhangsongcui3371/fastfetch -y && sudo apt update
