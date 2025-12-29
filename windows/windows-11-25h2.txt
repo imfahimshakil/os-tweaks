@@ -127,8 +127,29 @@ sudo choco install windhawk -y
 
 # Office 365 Enterprise
 # Download -> extract -> install-office.bat
+# Activation (MAS_AIO) -> Disable Windows Defender Smart App Control
 # https://mega.nz/file/cE51CTzT#TV1YnYpzrTsDNFekOap0gWSG8Y6UppdVv8qdhk5_miE
 
 # Terminal Modification
 # https://starship.rs/
 # https://draculatheme.com/windows-terminal
+
+# JetBrains Rider
+winget install -e --id JetBrains.Rider
+
+# ViveTool
+winget install -e --id thebookisclosed.Vive
+sudo vivetool /enable /id:57156807,57259990,58381341,58527096
+sudo vivetool /enable /id:56328729
+
+# Proton VPN
+winget install -e --id Proton.ProtonVPN
+
+# PDFgear
+winget install -e --id PDFgear.PDFgear
+
+# Microsoft Journal
+winget install -e --id 9N318R854RHH --accept-package-agreements
+
+# HP Pen Settings (optional)
+winget install -e --id 9PHM1CN7FFMT --accept-package-agreements
