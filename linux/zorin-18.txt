@@ -148,13 +148,6 @@ echo -e "\n/mnt/data1/media:/mnt/data2/media:/mnt/data3/media /mnt/library fuse.
 unset u; PS3="Select a user: "; select u in $(ls /home); do [[ -n $u ]] && sudo chown -R root:$(id -gn $u) /mnt/library && break; done
 sudo systemctl daemon-reload && sudo mount -a
 
-# HDD Tuning (Requires local files: hdd-tune.sh, hdd-tuning.service)
-sudo cp hdd/hdd-tune.sh /usr/local/sbin/
-sudo chmod +x /usr/local/sbin/hdd-tune.sh
-sudo cp hdd/hdd-tuning.service /etc/systemd/system/hdd-tuning.service
-sudo systemctl daemon-reload
-sudo systemctl enable hdd-tuning.service && sudo systemctl start hdd-tuning.service
-
 # Samba
 sudo apt install samba apparmor-utils -y
 # Turn AppArmor off
@@ -162,7 +155,7 @@ sudo apt install samba apparmor-utils -y
 unset u; PS3="Select a user: "; select u in $(ls /home); do [[ -n "$u" ]] && break; done
 sudo smbpasswd -a $u && sudo smbpasswd -e $u
 mkdir -p ~/.samba && ln -s /mnt/data{1,2,3} ~/.samba/
-sudo cp hdd/smb.conf /etc/samba/
+sudo cp smb.conf /etc/samba/
 sudo sed -i "s/valid users = .*/valid users = $u/" /etc/samba/smb.conf
 sudo sed -i "s/path = .*/path = \/home\/$u\/.samba/" /etc/samba/smb.conf
 sudo systemctl restart smbd && sudo systemctl enable smbd
