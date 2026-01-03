@@ -136,6 +136,9 @@ sudo choco install windhawk -y
 
 # JetBrains Rider
 winget install -e --id JetBrains.Rider
+# Enable UTF-8 as the system code page
+# Settings -> Time & Language -> Language & Region ->  Windows Language Display
+# Beta: Use Unicode UTF-8 for worldwide language support (Enable)
 
 # ViveTool
 winget install -e --id thebookisclosed.Vive
